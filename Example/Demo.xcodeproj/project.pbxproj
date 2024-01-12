@@ -26,6 +26,7 @@
 /* Begin PBXFileReference section */
 		10710A5B07A80798DED8269E /* Pods_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		20E424F2DB4A27D25989365C /* Pods-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.release.xcconfig"; path = "Target Support Files/Pods-Demo/Pods-Demo.release.xcconfig"; sourceTree = "<group>"; };
+		9E6F85552B50C0590012761C /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../../Package.swift; sourceTree = "<group>"; };
 		A68EAF8F239634A000158120 /* ExampleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleListViewController.swift; sourceTree = "<group>"; };
 		A68EAF912396361C00158120 /* BasicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicViewController.swift; sourceTree = "<group>"; };
 		A68EAF9323963A9100158120 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -85,6 +86,7 @@
 		A6BC0BC6239139F8004A4E46 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				9E6F85552B50C0590012761C /* Package.swift */,
 				A6FE4B4524EDDBAE00E9C754 /* README.md */,
 				A6BC0BC7239139F8004A4E46 /* AppDelegate.swift */,
 				A6BC0BD0239139F9004A4E46 /* Assets.xcassets */,

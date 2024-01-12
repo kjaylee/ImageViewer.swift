@@ -132,19 +132,18 @@ public class ImageCarouselViewController:UIPageViewController, ImageViewerTransi
                     navigationContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                     navigationContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor)
                 ])
+            case .initialized(let action):
+                action()
             }
         }
     }
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        
         addBackgroundView()
         addNavigationBar()
         applyOptions()
-        
         dataSource = self
-
         if let imageDatasource = imageDatasource {
             let initialVC:ImageViewerController = .init(
                 index: initialIndex,
