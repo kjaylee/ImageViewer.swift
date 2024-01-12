@@ -15,10 +15,10 @@ UIGestureRecognizerDelegate {
     var index:Int = 0
     var imageItem:ImageItem!
 
-    var navBar:UINavigationBar? {
+    var navigationContainer: UIView? {
         guard let _parent = parent as? ImageCarouselViewController
             else { return nil}
-        return _parent.navBar
+        return _parent.navigationContainer
     }
     
     // MARK: Layout Constraints
@@ -103,12 +103,12 @@ UIGestureRecognizerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.navBar?.alpha = 1.0
+        self.navigationContainer?.alpha = 1.0
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        self.navBar?.alpha = 0.0
+        self.navigationContainer?.alpha = 0.0
     }
     
     override func viewWillLayoutSubviews() {
@@ -192,9 +192,9 @@ UIGestureRecognizerDelegate {
     @objc
     func didSingleTap(_ recognizer: UITapGestureRecognizer) {
         
-        let currentNavAlpha = self.navBar?.alpha ?? 0.0
+        let currentNavAlpha = self.navigationContainer?.alpha ?? 0.0
         UIView.animate(withDuration: 0.235) {
-            self.navBar?.alpha = currentNavAlpha > 0.5 ? 0.0 : 1.0
+            self.navigationContainer?.alpha = currentNavAlpha > 0.5 ? 0.0 : 1.0
         }
     }
     

@@ -83,12 +83,17 @@ extension WithImagesViewController:UICollectionViewDataSource {
             .dequeueReusableCell(withReuseIdentifier: ThumbCell.reuseIdentifier,
                                  for: indexPath) as! ThumbCell
         cell.imageView.image = images[indexPath.item]
-        
+        let titleView = UIView()
+            titleView.backgroundColor = .red
         // Setup Image Viewer with [UIImage]
-        cell.imageView.setupImageViewer(
-            images: images,
-            initialIndex: indexPath.item)
-        
+            cell.imageView.setupImageViewer(
+                images: images,
+                initialIndex: indexPath.item,
+                options: [
+                    ImageViewerOption.navigationTitleView(titleView),
+                    ImageViewerOption.theme(.clear)]
+            )
+            
         return cell
     }
 }

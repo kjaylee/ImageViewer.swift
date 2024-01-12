@@ -95,9 +95,6 @@ extension WithURLsViewController:UICollectionViewDataSource {
             initialIndex: indexPath.item,
             options: [
                 .theme(.dark),
-                .rightNavItemTitle("Info", onTap: { i in
-                    print("TAPPED", i)
-                })
             ],
             from: self)
         

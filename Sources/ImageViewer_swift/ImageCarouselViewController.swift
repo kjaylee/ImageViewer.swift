@@ -22,6 +22,12 @@ public class ImageCarouselViewController:UIPageViewController, ImageViewerTransi
         return vc.imageView
     }
     
+    var navigationContainer: UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+    
     weak var imageDatasource:ImageDataSource?
     let imageLoader:ImageLoader
  
@@ -29,8 +35,8 @@ public class ImageCarouselViewController:UIPageViewController, ImageViewerTransi
     
     var theme:ImageViewerTheme = .light {
         didSet {
-            navItem.leftBarButtonItem?.tintColor = theme.tintColor
-            backgroundView?.backgroundColor = theme.color
+            navigationContainer.backgroundColor = theme.navigationColor
+            backgroundView?.backgroundColor = theme.backgroundColor
         }
     }
     
@@ -38,24 +44,12 @@ public class ImageCarouselViewController:UIPageViewController, ImageViewerTransi
     var options:[ImageViewerOption] = []
     
     private var onRightNavBarTapped:((Int) -> Void)?
-    
-    private(set) lazy var navBar:UINavigationBar = {
-        let _navBar = UINavigationBar(frame: .zero)
-        _navBar.isTranslucent = true
-        _navBar.setBackgroundImage(UIImage(), for: .default)
-        _navBar.shadowImage = UIImage()
-        return _navBar
-    }()
-    
     private(set) lazy var backgroundView:UIView? = {
         let _v = UIView()
-        _v.backgroundColor = theme.color
+        _v.backgroundColor = theme.backgroundColor
         _v.alpha = 1.0
         return _v
     }()
-    
-    private(set) lazy var navItem = UINavigationItem()
-    
     private let imageViewerPresentationDelegate: ImageViewerTransitionPresentationManager
     
     public init(
@@ -98,19 +92,19 @@ public class ImageCarouselViewController:UIPageViewController, ImageViewerTransi
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func addNavBar() {
-        // Add Navigation Bar
-        let closeBarButton = UIBarButtonItem(
-            title: NSLocalizedString("Close", comment: "Close button title"),
-            style: .plain,
-            target: self,
-            action: #selector(dismiss(_:)))
-        
-        navItem.leftBarButtonItem = closeBarButton
-        navItem.leftBarButtonItem?.tintColor = theme.tintColor
-        navBar.alpha = 0.0
-        navBar.items = [navItem]
-        navBar.insert(to: view)
+    private func addNavigationBar() {
+        let v = navigationContainer
+        view.addSubview(v)
+        v.backgroundColor = .magenta
+        // 오토리사이징 마스크 비활성화
+        v.translatesAutoresizingMaskIntoConstraints = false
+        // 오토레이아웃 제약조건 설정
+        NSLayoutConstraint.activate([
+            v.topAnchor.constraint(equalTo: view.topAnchor),
+            v.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            v.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            v.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 44)
+         ])
     }
     
     private func addBackgroundView() {
@@ -124,26 +118,20 @@ public class ImageCarouselViewController:UIPageViewController, ImageViewerTransi
         
         options.forEach {
             switch $0 {
-                case .theme(let theme):
-                    self.theme = theme
-                case .contentMode(let contentMode):
-                    self.imageContentMode = contentMode
-                case .closeIcon(let icon):
-                    navItem.leftBarButtonItem?.image = icon
-                case .rightNavItemTitle(let title, let onTap):
-                    navItem.rightBarButtonItem = UIBarButtonItem(
-                        title: title,
-                        style: .plain,
-                        target: self,
-                        action: #selector(diTapRightNavBarItem(_:)))
-                    onRightNavBarTapped = onTap
-                case .rightNavItemIcon(let icon, let onTap):
-                    navItem.rightBarButtonItem = UIBarButtonItem(
-                        image: icon,
-                        style: .plain,
-                        target: self,
-                        action: #selector(diTapRightNavBarItem(_:)))
-                    onRightNavBarTapped = onTap
+            case .theme(let theme):
+                self.theme = theme
+            case .contentMode(let contentMode):
+                self.imageContentMode = contentMode
+            case .navigationTitleView(let view):
+                navigationContainer.addSubview(view)
+                // 오토리사이징 마스크 비활성화
+                view.translatesAutoresizingMaskIntoConstraints = false
+                NSLayoutConstraint.activate([
+                    view.heightAnchor.constraint(equalToConstant: 44.0),
+                    navigationContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                    navigationContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                    navigationContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+                ])
             }
         }
     }
@@ -152,7 +140,7 @@ public class ImageCarouselViewController:UIPageViewController, ImageViewerTransi
         super.viewDidLoad()
         
         addBackgroundView()
-        addNavBar()
+        addNavigationBar()
         applyOptions()
         
         dataSource = self
