@@ -6,6 +6,12 @@ public protocol ImageDataSource: AnyObject {
 }
 
 public class ImageCarouselViewController:UIPageViewController, ImageViewerTransitionViewControllerConvertible {
+    public var currentIndex: Int {
+        guard let vc = self.viewControllers?.first as? ImageViewerController else {
+            return 0
+        }
+        return vc.index
+    }
     
     unowned var initialSourceView: UIImageView?
     var sourceView: UIImageView? {
@@ -27,13 +33,6 @@ public class ImageCarouselViewController:UIPageViewController, ImageViewerTransi
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
-    
-    var currendIndex: Int {
-        guard let vc = self.viewControllers?.first as? ImageViewerController else {
-            return 0
-        }
-        return vc.index
-    }
     
     weak var imageDatasource:ImageDataSource?
     let imageLoader:ImageLoader
