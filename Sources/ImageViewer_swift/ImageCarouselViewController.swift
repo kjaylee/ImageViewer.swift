@@ -28,6 +28,13 @@ public class ImageCarouselViewController:UIPageViewController, ImageViewerTransi
         return v
     }()
     
+    var currendIndex: Int {
+        guard let vc = self.viewControllers?.first as? ImageViewerController else {
+            return 0
+        }
+        return vc.index
+    }
+    
     weak var imageDatasource:ImageDataSource?
     let imageLoader:ImageLoader
  
